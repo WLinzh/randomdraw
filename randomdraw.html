@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>铁牛抽奖平台</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .input-group {
+            margin: 10px 0;
+        }
+        .input-group input {
+            width: 50px;
+            text-align: center;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>铁牛抽抽抽</h1>
+    <div class="input-group">
+        <label>总人数：</label>
+        <input type="number" id="totalPeople" value="120" max="120" min="1">
+    </div>
+    <div class="input-group">
+        <label>抽取人数：</label>
+        <input type="number" id="drawCount" value="1" min="1">
+    </div>
+    <button class="btn" onclick="draw()">抽奖</button>
+    <button class="btn" onclick="reset()">重置</button>
+    <div id="result"></div>
+
+    <script>
+        function draw() {
+            const totalPeople = parseInt(document.getElementById('totalPeople').value);
+            const drawCount = parseInt(document.getElementById('drawCount').value);
+
+            if (drawCount > totalPeople) {
+                alert("抽取人数不能大于总人数！");
+                return;
+            }
+
+            // 创建抽奖池
+            const pool = Array.from({ length: totalPeople }, (_, i) => i + 1);
+            const result = [];
+
+            // 随机抽取
+            for (let i = 0; i < drawCount; i++) {
+                const randomIndex = Math.floor(Math.random() * pool.length);
+                result.push(pool.splice(randomIndex, 1)[0]);
+            }
+
+            // 显示结果
+            document.getElementById('result').innerHTML = `抽取结果：${result.join(', ')}`;
+        }
+
+        function reset() {
+            document.getElementById('totalPeople').value = 120;
+            document.getElementById('drawCount').value = 1;
+            document.getElementById('result').innerHTML = '';
+        }
+    </script>
+</body>
+</html>
